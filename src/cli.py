@@ -45,7 +45,15 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--render", action="store_true")
     m.add_argument("--max-chars", type=int, default=40000)
 
+    sub.add_parser("tui", help="Launch the interactive Textual TUI")
+
     a = p.parse_args(argv)
+
+    if a.cmd == "tui":
+        from .tui.app import run as run_tui
+
+        run_tui()
+        return 0
 
     if a.cmd == "extract":
         schema = None

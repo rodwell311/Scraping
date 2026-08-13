@@ -12,10 +12,12 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "pydantic",
+    "textual",
+    "rich",
 ]
 
 [project.scripts]
 ai-scrape = "src.cli:main"
 
 [tool.setuptools]
-packages = ["src", "app"]
+packages = ["src", "app", "src.tui", "src.tui.widgets"]
