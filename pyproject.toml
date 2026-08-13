@@ -1,0 +1,21 @@
+[project]
+name = "ai-scraper"
+version = "0.1.0"
+description = "AI-Powered Universal Web Scraper"
+requires-python = ">=3.12"
+dependencies = [
+    "curl_cffi",
+    "playwright",
+    "beautifulsoup4",
+    "html2text",
+    "openai",
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+]
+
+[project.scripts]
+ai-scrape = "src.cli:main"
+
+[tool.setuptools]
+packages = ["src", "app"]
