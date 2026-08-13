@@ -27,6 +27,7 @@ RESULT = {
 async def _run(check, app_class=ScraperApp) -> None:
     app = app_class()
     async with app.run_test() as pilot:
+        await pilot.pause()  # let the initial mount settle before driving widgets
         await check(app, pilot)
 
 
@@ -122,6 +123,64 @@ def test_bindings_and_tabs() -> None:
         assert app.sub_title == "busy"
 
     asyncio.run(_run(check))
+
+
+def test_worker_pipeline_direct() -> None:
+    """Full worker path through run_scrape, with fetch + LLM stubbed out."""
+    import src.tui.app as tui_app
+    from src.fetcher import FetchResult
+    from src.tui.widgets.form import RunRequest
+
+    html = (
+        "<html><body><nav>junk</nav><h1>Novel Alpha</h1>"
+        + "<p>filler</p>" * 200
+        + "</body></html>"
+    )
+    real_fetch, real_complete = tui_app.fetch, tui_app.ai_client.complete
+    tui_app.fetch = lambda url, render=False: FetchResult(url, html, 200, "curl_cffi")
+    tui_app.ai_client.complete = lambda system, user, **kw: '{"title": "Novel Alpha"}'
+
+    async def check(app, pilot):
+        app.run_scrape(RunRequest("https://e.com", "direct", "get the title", False))
+        await app.workers.wait_for_complete()
+        await pilot.pause()
+
+        viewer = app.query_one("#viewer", ResultViewer)
+        assert viewer.result is not None, "worker produced no result"
+        assert viewer.result["data"] == {"title": "Novel Alpha"}, viewer.result
+        assert viewer.result["engine"] == "curl_cffi", viewer.result
+        assert viewer.result["reduction"] > 0.3, viewer.result
+        assert app.query_one(TabbedContent).active == "tab-result"
+        assert not app.query_one("#run").disabled, "run button left disabled"
+
+    try:
+        asyncio.run(_run(check))
+    finally:
+        tui_app.fetch, tui_app.ai_client.complete = real_fetch, real_complete
+
+
+def test_worker_reports_errors() -> None:
+    import src.tui.app as tui_app
+    from src.tui.widgets.form import RunRequest
+
+    def boom(url, render=False):
+        raise RuntimeError("network down")
+
+    real_fetch = tui_app.fetch
+    tui_app.fetch = boom
+
+    async def check(app, pilot):
+        app.run_scrape(RunRequest("https://e.com", "direct", "x", False))
+        await app.workers.wait_for_complete()
+        await pilot.pause()
+        assert "RuntimeError" in app.sub_title, app.sub_title
+        assert app.query_one("#viewer", ResultViewer).result is None
+        assert not app.query_one("#run").disabled, "run button left disabled after error"
+
+    try:
+        asyncio.run(_run(check))
+    finally:
+        tui_app.fetch = real_fetch
 
 
 if __name__ == "__main__":

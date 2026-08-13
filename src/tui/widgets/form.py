@@ -53,9 +53,6 @@ class ScraperForm(Vertical):
         )
         yield Label("", id="error")
 
-    def on_mount(self) -> None:
-        self.query_one("#url", Input).focus()
-
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "run":
             event.stop()
