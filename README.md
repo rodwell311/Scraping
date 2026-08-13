@@ -15,7 +15,7 @@ An intelligent, hybrid web scraping engine designed for maximum efficiency. It c
 - **🧠 Mode 1: Auto-Selector Generator (Zero-Token Bulk Scrape)**: Asks the LLM **once** to analyze a sample page and generate CSS selectors. Subsequent 1,000s of pages are scraped using pure Python CSS selectors without consuming any extra AI tokens.
 - **🎯 Mode 2: Direct AI Extraction**: Send any page + natural language prompt or JSON schema to extract complex, un-structured dynamic data on the fly.
 - **🌐 Provider Agnostic**: Works out of the box with any OpenAI-compatible endpoint (`OPENAI_BASE_URL` & `OPENAI_API_KEY`).
-- **💻 Dual Interfaces**: Complete CLI tool (`ai-scrape`) + FastAPI REST endpoints with OpenAPI / Swagger UI.
+- **💻 Triple Interfaces**: Interactive Terminal User Interface (TUI via `textual`), complete CLI tool (`ai-scrape`), and FastAPI REST endpoints with OpenAPI / Swagger UI.
 
 ---
 
@@ -77,6 +77,22 @@ OPENAI_MODEL="gpt-4o-mini"
 ---
 
 ## 💻 Usage
+
+### 🖥️ Interactive TUI (Terminal User Interface)
+
+Launch the full-screen interactive TUI dashboard:
+
+```bash
+python -m src.cli tui
+```
+
+Features included in the TUI:
+- **Runner Dashboard**: Input URL, switch between Direct AI & Auto-Selector modes, set natural language prompts.
+- **Collapsible JSON Tree Viewer**: View, inspect, and expand extracted JSON data with syntax highlighting.
+- **Live Logs Console**: Monitor real-time fetching status (`curl_cffi` vs `Playwright`) and token compression ratio.
+- **Shortcuts**: `Ctrl+S` (Export/Save JSON to file), `Ctrl+R` (Switch to Runner tab), `Ctrl+Q` (Quit).
+
+---
 
 ### 🛠️ CLI Interface
 
