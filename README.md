@@ -90,7 +90,7 @@ Features included in the TUI:
 - **Runner Dashboard**: Input URL, switch between Direct AI & Auto-Selector modes, set natural language prompts.
 - **Collapsible JSON Tree Viewer**: View, inspect, and expand extracted JSON data with syntax highlighting.
 - **Live Logs Console**: Monitor real-time fetching status (`curl_cffi` vs `Playwright`) and token compression ratio.
-- **Shortcuts**: `Ctrl+S` (Export/Save JSON to file), `Ctrl+R` (Switch to Runner tab), `Ctrl+Q` (Quit).
+- **Shortcuts**: `Ctrl+R` (Run scrape), `Ctrl+S` (Export/Save JSON to `output/`), `Ctrl+L` (Clear log), `Ctrl+Q` (Quit).
 
 ---
 
@@ -148,7 +148,8 @@ Access Interactive Swagger Documentation at `http://localhost:8000/docs`.
 Run built-in offline smoke tests to verify all components:
 
 ```bash
-python tests/smoke.py
+python tests/smoke.py      # core: cleaner, selector engine, API
+python tests/tui_smoke.py  # TUI: headless Textual pilot (no network, no LLM)
 ```
 
 Expected Output:

@@ -60,13 +60,13 @@ Penambahan antarmuka Terminal User Interface (TUI) interaktif untuk `ai-scraper`
 Total tasks: 6. Urutan eksekusi = urutan di list (dependency-ordered).
 
 ## Setup
-- [ ] **TASK-01**: Tambahkan dependensi `textual` dan `rich` ke `requirements.txt` & `pyproject.toml` (5 min)
+- [x] **TASK-01**: Tambahkan dependensi `textual` dan `rich` ke `requirements.txt` & `pyproject.toml` (5 min)
 
 ## Core TUI App
-- [ ] **TASK-02**: Buat modul `src/tui/app.py` (Textual App dasar dengan Header, Footer, & Tabbed Content) (20 min)
-- [ ] **TASK-03**: Buat widget form `src/tui/widgets/form.py` (URL Input, Prompt Input, Mode Dropdown, Run Button) (20 min)
-- [ ] **TASK-04**: Buat widget viewer `src/tui/widgets/viewer.py` (JSON Tree view + Rich syntax highlight & Save to file) (20 min)
-- [ ] **TASK-05**: Integrasikan backend scraper (`fetcher`, `cleaner`, `mode_direct`, `mode_selector`) dengan async worker Textual di `src/tui/app.py` (25 min)
+- [x] **TASK-02**: Buat modul `src/tui/app.py` (Textual App dasar dengan Header, Footer, & Tabbed Content) (20 min)
+- [x] **TASK-03**: Buat widget form `src/tui/widgets/form.py` (URL Input, Prompt Input, Mode Dropdown, Run Button) (20 min)
+- [x] **TASK-04**: Buat widget viewer `src/tui/widgets/viewer.py` (JSON Tree view + Rich syntax highlight & Save to file) (20 min)
+- [x] **TASK-05**: Integrasikan backend scraper (`fetcher`, `cleaner`, `mode_direct`, `mode_selector`) dengan async worker Textual di `src/tui/app.py` (25 min)
 
 ## Entry Point & Verification
-- [ ] **TASK-06**: Tambahkan command `tui` pada `src/cli.py` (menjalankan TUI via `python -m src.cli tui` / `ai-scrape tui`) dan tes kelayakan TUI (15 min)
+- [x] **TASK-06**: Tambahkan command `tui` pada `src/cli.py` (menjalankan TUI via `python -m src.cli tui` / `ai-scrape tui`) dan tes kelayakan TUI (15 min)
